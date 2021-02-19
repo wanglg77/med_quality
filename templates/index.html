@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盐医医疗质量指标体系</title>
+    <style>
+        * {margin:0px;
+			padding:0px;
+			}
+        .nav{
+            width: 960px;
+            height: 40px;
+            background-color: #006aa6;
+            opacity: 60%;
+            z-index: 10;
+            margin:auto;<!-- 居中 -->
+			}
+        .lap{
+            width:960px;
+            height:10px;
+            background-color:white;
+            font-size:14px;
+            margin:auto;<!-- 居中 -->
+
+        }
+        .main{
+            width:960px;
+            height:800px;
+            background-color: #006aa6;
+            opacity: 80%;
+            z-index: 10;
+            margin:auto;<!-- 居中 -->
+
+        }
+        .useless{
+            width:960px;
+            height:300px;
+            background-color: #006aa6;
+            opacity: 10%;
+            z-index: 10;
+            margin:auto;<!-- 居中 -->
+        }
+        .nav ul{
+            line-height:33px;
+            margin-left:40px;
+        }
+        .nav ul li{
+            float:left;
+            width:140px;
+            list-style:none;
+
+        }
+        .nav ul li a{
+            font-size:14px;
+            text-decoration:none;
+            color: white;
+
+        }
+        .nav ul li a:hover {
+            background-color:#006aa6;
+            padding:2px 20px;
+            color:ghostwhite;
+            border:solid 1px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 80px;
+            color: ghostwhite;
+        }
+        h2{
+            font-size: 30px;
+            color: ghostwhite;
+        }
+        span{
+            display: inline-block;
+            width: 250px;
+            height: 60px;
+            background-color: darkgrey;
+            text-align: center;
+            font-size: 28px;
+            color: white;
+            line-height: 60px;
+            margin: 3px auto;
+
+        }
+        a:link {text-decoration: none}
+        a:visited {color: #FFFFFF;}
+        a:hover {color: cornflowerblue;}
+    </style>
+</head>
+<body background={{ url_for('static', filename='bg.png') }}>
+<div class="nav">
+			<ul>
+				<li><a href="./index">网站首页</a></li>
+				<li><a href="./dept">科室维护</a></li>
+				<li><a href="./query">质量数据查询</a></li>
+				<li><a href="./dataprocess">质量数据导入</a></li>
+				<li><a href="./assign">质控病历分配</a></li>
+			</ul>
+		</div>
+        <div class="lap">
+
+        </div>
+        <div class="main">
+            <div class="useless">
+
+            </div>
+            <h2>
+                ——深圳市盐田区人民医院/南方科技大学盐田医院
+            </h2>
+            <br>
+            <hr>
+            <h1>
+                " 医疗质量数据处理系统
+            </h1>
+            <br><br>
+            <div class="content">
+                <span><a href="./dept">科室维护</a></span>
+                <span><a href="./query">质量数据查询</a></span>
+                <span><a href="./dataprocess">质量数据导入</a></span>
+                <span><a href="./assign">质控病历分配</a></span>
+            </div>
+        </div>
+
+</body>
+</html>

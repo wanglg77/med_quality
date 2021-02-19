@@ -1,0 +1,82 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>导航</title>
+		<style type="text/css">
+			*
+			{margin:0px;
+			padding:0px;
+			}
+            body{
+                background-image: {{ url_for('static', filename='bg.png') }};
+            }
+			.nav{
+				width:960px;
+				height:33px;
+				font-size:14px;
+				font-family:"微软雅黑";
+				margin:0px auto;<!-- 居中 -->
+                background: rgba(66, 66, 66, 0.6);
+			}
+            .lap{
+				width:960px;
+				height:10px;
+				background-color:white;
+				font-size:14px;
+				font-family:"微软雅黑";
+				margin:0px auto;<!-- 居中 -->
+
+			}
+            .main{
+				width:960px;
+				height:800px;
+				background-color:#CCC;
+				font-size:14px;
+				font-family:"微软雅黑";
+				margin:0px auto;<!-- 居中 -->
+
+			}
+			.nav ul{
+				line-height:33px;
+				margin-left:40px;
+			}
+			.nav ul li{
+				float:left;
+				width:140px;
+				list-style:none;
+
+			}
+			.nav ul li a{
+				font-size:14px;
+				text-decoration:none;
+
+			}
+			.nav ul li a:hover {
+				background-color:#FFF;
+				padding:5px 20px;
+				color:#000;
+				border:solid 3px;
+			}
+		</style>
+	</head>
+	<body background={{ url_for('static', filename='bg.png') }}>
+		<div class="nav">
+			<ul>
+				<li><a href="###">网站首页</a></li>
+				<li><a href="###">公司新闻</a></li>
+				<li><a href="###">产品展示</a></li>
+				<li><a href="###">公司留言</a></li>
+				<li><a href="###">人才招聘</a></li>
+				<li><a href="###"> 联系我们</a></li>
+			</ul>
+		</div>
+        <div class="lap">
+
+        </div>
+        <div class="main">
+
+        </div>
+	</body>
+
+</html>

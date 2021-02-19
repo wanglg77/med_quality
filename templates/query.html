@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盐医医疗质量指标体系</title>
+    <style>
+        table {
+            border-collapse:collapse;
+            font-size: 10pt;
+        }
+
+        table,th, td
+          {
+          border: 1px solid black;
+          }
+    </style>
+</head>
+<body>
+<h1>盐医医疗质量指标体系-质量数据查询</h1>
+<hr>
+<form method="POST">
+    {{ queryform.csrf_token() }}
+    {{ queryform.deptname.label }}{{ queryform.deptname }}<br>
+    {{ queryform.startdate.label }}{{ queryform.startdate }}<br>
+    {{ queryform.overdate.label }}{{ queryform.overdate }}<br>
+    {{ queryform.submit }}
+    {{ queryform.toexcel }}
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+</form>
+
+<hr>
+<table>
+    {% if deptclass == '手术' %}
+        <tr><span>手术科室</span></tr>
+        <tr>
+            <td>科室</td><td>质控小组得分</td><td>危急值规范处理率</td><td>不良事件主动报告例数</td><td>大型检查阳性率</td><td>环境卫生得分</td>
+            <td>手卫生规范执行率</td><td>违反核心制度次数</td><td>门诊病历书写率</td>
+            <td>门诊病历甲级率</td><td>预约诊疗率</td><td>预约后等待时间</td><td>门诊区外患者比例</td><td>处方合格率</td>
+            <td>基药比例</td><td>辅药比例</td><td>纯收入比</td><td>出院人次</td><td>出院床日</td><td>住院病历甲级率</td><td>住院病历按时归档率</td>
+            <td>住院区外患者比例</td><td>临床路径入径率</td><td>DRG组数</td><td>CMI</td><td>手术占比</td>
+            <td>日间手术占比</td><td>微创手术占比</td><td>四级手术占比</td><td>手术并发症发生率</td><td>I类切口感染率</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for o in dataos[dataqs.index(dataq)] %}
+                    {% if o is none %}
+                        <td>{{ o }}</td>
+                    {% elif o<=1 %}
+                        <td>{{ '%.2f %%'%(o*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%o }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for p in dataps[dataqs.index(dataq)] %}
+                    {% if p is none %}
+                        <td>{{ p }}</td>
+                    {% elif p<=1 %}
+                        <td>{{ '%.2f %%'%(p*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%p }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for ic in dataics[dataqs.index(dataq)] %}
+                    {% if ic is none %}
+                        <td>{{ ic }}</td>
+                    {% elif ic<=1 %}
+                        <td>{{ '%.2f %%'%(ic*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%ic }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for i in datais[dataqs.index(dataq)] %}
+                    {% if i is none %}
+                        <td>{{ i }}</td>
+                    {% elif datais[dataqs.index(dataq)].index(i) in [6,7] %}
+                        <td>{{ '%.2f'%i }}</td>
+                    {% elif i<=1 %}
+                        <td>{{ '%.2f%%'%(i*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.0f'%i }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% if datass[dataqs.index(dataq)] %}
+                    <td>{{ '%.2f%%'%((datass[dataqs.index(dataq)][0]/datais[dataqs.index(dataq)][0])*100) }}</td>
+                    <td>
+                        {% if datass[dataqs.index(dataq)][2] is none %}
+                            {{ datass[dataqs.index(dataq)][2] }}
+                        {% else %}
+                            {{ '%.2f%%'%(datass[dataqs.index(dataq)][2]*100) }}
+                        {% endif %}
+
+                    </td>
+                    <td>{{ '%.2f%%'%(datass[dataqs.index(dataq)][3]*100) }}</td>
+                    <td>{{ '%.2f%%'%(datass[dataqs.index(dataq)][4]*100) }}</td>
+                    <td>
+                        {% if datass[dataqs.index(dataq)][5] is none %}
+                            {{ datass[dataqs.index(dataq)][5] }}
+                        {% else %}
+                            {{ '%.2f%%'%(datass[dataqs.index(dataq)][5]*100) }}
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        {% if datass[dataqs.index(dataq)][6] is none %}
+                            {{ datass[dataqs.index(dataq)][6] }}
+                        {% else %}
+                            {{ '%.2f%%'%(datass[dataqs.index(dataq)][6]*100) }}
+                        {% endif %}
+
+                    </td>
+                {% endif %}
+                <td>{{ '%.2f'%scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+        <tr></tr>
+
+    {% elif deptclass == '住院' %}
+        <tr><span>住院科室</span></tr>
+        <tr>
+            <td>科室</td><td>质控小组得分</td><td>危急值规范处理率</td><td>不良事件主动报告例数</td><td>大型检查阳性率</td><td>环境卫生得分</td>
+            <td>手卫生规范执行率</td><td>违反核心制度次数</td><td>门诊病历书写率</td>
+            <td>门诊病历甲级率</td><td>预约诊疗率</td><td>预约后等待时间</td><td>门诊区外患者比例</td><td>处方合格率</td>
+            <td>基药比例</td><td>辅药比例</td><td>纯收入比</td><td>出院人次</td><td>出院床日</td><td>住院病历甲级率</td><td>住院病历按时归档率</td>
+            <td>住院区外患者比例</td><td>临床路径入径率</td><td>DRG组数</td><td>CMI</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for o in dataos[dataqs.index(dataq)] %}
+                    {% if o is none %}
+                        <td>{{ o }}</td>
+                    {% elif o<=1 %}
+                        <td>{{ '%.2f %%'%(o*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%o }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for p in dataps[dataqs.index(dataq)] %}
+                    {% if p is none %}
+                        <td>{{ p }}</td>
+                    {% elif p<=1 %}
+                        <td>{{ '%.2f %%'%(p*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%p }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for ic in dataics[dataqs.index(dataq)] %}
+                    {% if ic is none %}
+                        <td>{{ ic }}</td>
+                    {% elif ic<=1 %}
+                        <td>{{ '%.2f %%'%(ic*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%ic }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for i in datais[dataqs.index(dataq)] %}
+                    {% if i is none %}
+                        <td>{{ i }}</td>
+                    {% elif datais[dataqs.index(dataq)].index(i) in [6,7] %}
+                        <td>{{ '%.2f'%i }}</td>
+                    {% elif i<=1 %}
+                        <td>{{ '%.2f%%'%(i*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.0f'%i }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ '%.2f'%scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+        <tr></tr>
+
+    {% elif deptclass == '门诊' %}
+        <tr><span>门诊科室</span></tr>
+        <tr>
+            <td>科室</td><td>质控小组得分</td><td>危急值规范处理率</td><td>不良事件主动报告例数</td><td>大型检查阳性率</td><td>环境卫生得分</td>
+            <td>手卫生规范执行率</td><td>违反核心制度次数</td><td>门诊病历书写率</td>
+            <td>门诊病历甲级率</td><td>预约诊疗率</td><td>预约后等待时间</td><td>门诊区外患者比例</td><td>处方合格率</td>
+            <td>基药比例</td><td>辅药比例</td><td>纯收入比</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for o in dataos[dataqs.index(dataq)] %}
+                    {% if o is none %}
+                        <td>{{ o }}</td>
+                    {% elif o<=1 %}
+                        <td>{{ '%.2f %%'%(o*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%o }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for p in dataps[dataqs.index(dataq)] %}
+                    {% if p is none %}
+                        <td>{{ p }}</td>
+                    {% elif p<=1 %}
+                        <td>{{ '%.2f %%'%(p*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%p }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for ic in dataics[dataqs.index(dataq)] %}
+                    {% if ic is none %}
+                        <td>{{ ic }}</td>
+                    {% elif ic<=1 %}
+                        <td>{{ '%.2f %%'%(ic*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%ic }}</td>
+                    {% endif %}
+                {% endfor %}
+
+                <td>{{ '%.2f'%scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+        <tr></tr>
+
+    {% elif deptclass == '医技' %}
+        <tr><span>医技科室</span></tr>
+        <tr>
+            <td>科室名称</td><td>质控小组</td><td>危急值</td><td>不良事件</td><td>环境卫生</td><td>手卫生</td><td>违反核心制度次数</td>
+            <td>设备故障率</td><td>室内质控</td><td>室间质评</td><td>报告及时率</td><td>报告准确率</td><td>与临床沟通会</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+
+                {% endfor %}
+                {% for e in dataes[dataqs.index(dataq)] %}
+                    {% if e and e <=1 %}
+                        <td>{{ '%.2f%% '% (e*100) }}</td>
+                    {% else %}
+                        <td>{{ e }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ '%.2f'%scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+
+
+    {% elif deptclass == '麻醉' %}
+        <tr><span>麻醉科：</span></tr>
+        <tr>
+            <td>科室名称</td><td>质控小组</td><td>危急值</td><td>不良事件</td><td>环境卫生</td><td>手卫生</td><td>违反核心制度次数</td>
+            <td>术前访视</td><td>手术安全核查</td><td>麻醉复苏</td><td>麻醉并发症分析</td><td>术后访视</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+
+                {% endfor %}
+                {% for a in dataas[dataqs.index(dataq)] %}
+                    {% if a and a <=1 %}
+                        <td>{{ '%.2f%% '% (a*100) }}</td>
+                    {% else %}
+                        <td>{{ a }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ '%.2f' %scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+    {% elif deptclass == '药剂' %}
+        <tr><span>药剂科：</span></tr>
+        <tr>
+            <td>科室名称</td><td>质控小组</td><td>危急值</td><td>不良事件</td><td>环境卫生</td><td>手卫生</td><td>违反核心制度次数</td>
+            <td>处方点评比例</td><td>用药咨询次数</td><td>药师查房次数</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+
+                {% endfor %}
+                {% for p in dataps[dataqs.index(dataq)] %}
+                    {% if p and p <=1 %}
+                        <td>{{ '%.2f%% '% (p*100) }}</td>
+                    {% else %}
+                        <td>{{ p }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ '%.2f' %scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+    {% elif deptclass == '重症' %}
+        <tr><span>重症医学科</span></tr>
+        <tr>
+            <td>科室</td><td>质控小组</td><td>危急值</td><td>不良事件</td><td>大型检查阳性率</td><td>环境卫生</td>
+            <td>手卫生</td><td>违反核心制度次数</td><td>医嘱合格率</td><td>辅药比例</td><td>纯收入比</td>
+            <td>出院人次</td><td>出院床日</td><td>住院甲级</td><td>按时归档</td><td>住院区外比例</td>
+            <td>MDC</td><td>CMI</td><td>得分</td>
+        </tr>
+        {% for dataq in dataqs %}
+            <tr>
+                {% for q in dataq %}
+                    {% if q is number() and q <= 1 %}
+                        <td>{{ '%.2f%%'%(q*100) }}</td>
+                    {% else %}
+                        <td>{{ q }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for p in dataps[dataqs.index(dataq)] %}
+                    {% if p is none %}
+                        <td>{{ p }}</td>
+                    {% elif p<=1 %}
+                        <td>{{ '%.2f %%'%(p*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%p }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for ic in dataics[dataqs.index(dataq)] %}
+                    {% if ic is none %}
+                        <td>{{ ic }}</td>
+                    {% elif ic<=1 %}
+                        <td>{{ '%.2f %%'%(ic*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.2f'%ic }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% for i in datais[dataqs.index(dataq)] %}
+                    {% if datais[dataqs.index(dataq)].index(i) in [6,7] %}
+                        <td>{{ '%.2f'%i }}</td>
+                    {% elif i<=1 %}
+                        <td>{{ '%.2f%%'%(i*100) }}</td>
+                    {% else %}
+                        <td>{{ '%.0f'%i }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ '%.2f' %scores[dataqs.index(dataq)] }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+
+
+{#{{ datacal }}#}
+</body>
+</html>

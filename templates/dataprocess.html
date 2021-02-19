@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据导入</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        {{ processform.csrf_token() }}
+        {{ processform.date_sel(class='datepicker')  }}<br><br>
+        {{ processform.func_sel.label }}{{ processform.func_sel }}
+        {{ processform.file_upload.label }}{{ processform.file_upload }}
+        {{ processform.file2_upload.label }}{{ processform.file2_upload }}<br><br>
+        {{ processform.submit }}
+        {% for message in get_flashed_messages() %}#}
+            {{ message }}
+        {% endfor %}
+    </form>
+    <hr>
+{#    {% if functype in [1,4] %}#}
+{#    <form method="POST" enctype="multipart/form-data">#}
+{#        {{ uploadform.file_upload }}#}
+{#        {{ uploadform.file2_upload }}#}
+{#        {{ uploadform.submit }}#}
+{#        {% for message in get_flashed_messages() %}#}
+{#            {{ message }}#}
+{#        {% endfor %}#}
+{#    </form>#}
+{#    {% else %}#}
+{#        <form method="POST" enctype="multipart/form-data">#}
+{#        {{ uploadform.file_upload }}#}
+{#        {{ uploadform.submit }}#}
+{#        {% for message in get_flashed_messages() %}#}
+{#            {{ message }}#}
+{#        {% endfor %}#}
+{#        </form>#}
+{#    {% endif %}#}
+</body>
+</html>

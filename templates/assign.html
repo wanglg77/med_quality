@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盐医医疗质量指标体系-质控病历分配</title>
+</head>
+<body>
+    <h1>盐医医疗质量指标体系-质控病历分配</h1>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        {{ assignform.csrf_token() }}
+        {{ assignform.date_sel(class='datepicker')  }}<br><br>
+        {{ assignform.file_upload.label }}<br><br>{{ assignform.file_upload }}<br><br><br><br>
+        {{ assignform.submit }}
+        {% for message in get_flashed_messages() %}#}
+            {{ message }}
+        {% endfor %}
+    </form>
+</body>
+</html>
